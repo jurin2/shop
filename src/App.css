@@ -1,7 +1,7 @@
 .background{
-    background: url(./images/bg-img.jpg) center no-repeat;
-    background-size: cover;
+    background:url(./images/bg-img.jpg) center no-repeat;
+    background-size:cover
 }
 img{
-    width: 100%;
+    width:100%;
 }

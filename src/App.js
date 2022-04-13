@@ -1,67 +1,50 @@
-import { useState } from 'react';
+import {Switch,Route} from 'react-router-dom';
+import {useState} from 'react';
 import './App.css';
 import Data from './data';
-import { Navbar,Nav,NavDropdown,Jumbotron,Button } from 'react-bootstrap';
-
-function Card(props){
-  return(
-    <div className="col-md-4">
-      <img src={`https://jurin2.github.io/shop/images/shoes0${
-        props.idx<10 ? "0" + props.idx : props.idx
-      }.jpg`}/>  
-      <h2>{props.신발.title}</h2>
-      <p>{props.신발.content}</p>
-    </div>
-  );
-}
+import Detail from './Detail';
+import StartPage from './StartPage';
+import QnA from './QnA';
+import FAQ from './FAQ';
+import NavigationBar from './NavigationBar';
+import DetailPage from './DetailPage';
 
 function App() {
-  let [shoes,setShoes] = useState(Data);
+  let [shoes,shoseChange]=useState(Data);
+  let [viewCnt,viewCntChange] = useState(3);
   return (
     <div className="App">
-      {/* Navbars */}
-      <Navbar bg="light" expand="lg">
-      <Navbar.Brand href="#home">React-Bootstrap</Navbar.Brand>
-      <Navbar.Toggle aria-controls="basic-navbar-nav" />
-      <Navbar.Collapse id="basic-navbar-nav">
-        <Nav className="mr-auto">
-          <Nav.Link href="#home">Home</Nav.Link>
-          <Nav.Link href="#link">Link</Nav.Link>
-          <NavDropdown title="Dropdown" id="basic-nav-dropdown">
-            <NavDropdown.Item href="#action/3.1">Action</NavDropdown.Item>
-            <NavDropdown.Item href="#action/3.2">Another action</NavDropdown.Item>
-            <NavDropdown.Item href="#action/3.3">Something</NavDropdown.Item>
-            <NavDropdown.Divider />
-            <NavDropdown.Item href="#action/3.4">Separated link</NavDropdown.Item>
-          </NavDropdown>
-        </Nav>
-      </Navbar.Collapse>
-    </Navbar>
+      {/* 공통페이지 */}
+      {/* 내비게이션바 */}
+      <NavigationBar/>
+            
+      <Switch>  
+        {/* 제품별 상세페이지 */}
+        <Route path="/Detail/:id">          
+          <DetailPage/>
+        </Route>
 
-      {/* Jumbotron */}
-      <Jumbotron className='background'>
-        <h1>신발 가게</h1>
-        <p>
-          This is a simple hero unit, a simple jumbotron-style component for calling
-          extra attention to featured content or information.
-        </p>
-        <p>
-          <Button variant="primary">더보기</Button>
-        </p>
-      </Jumbotron>
+        {/* 상세페이지 */}
+        <Route path="/Detail">
+          <Detail shoes={shoes}/>
+        </Route>
+        
 
-      <div className="container">
-        <div className="row">
-          {
-            /* 반복문 */
-            shoes.map((item,idx,arr)=>{
-              return <Card key={item.id} 신발={item} idx={idx}/>
-            })    
-   
-          }
-          <button>3개 더보기</button>
-        </div>
-      </div>
+        {/* qna페이지 */}
+        <Route path="/QnA">
+          <QnA/>
+        </Route>
+
+        {/* faq페이지 */}
+        <Route path="/faq">
+          <FAQ/>
+        </Route>
+
+        {/* 시작페이지 */}
+        <Route path="/">
+          <StartPage shoes={shoes} viewCnt={viewCnt} viewCntChange={viewCntChange}/>
+        </Route>
+      </Switch>
     </div>
   );
 }
